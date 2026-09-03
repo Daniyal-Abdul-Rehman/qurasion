@@ -1,0 +1,17 @@
+{
+  "name": "@real-estate-platform/api-contracts",
+  "version": "1.0.0",
+  "description": "OpenAPI specifications and generated types for Real Estate Platform API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "generate": "openapi-typescript openapi.yaml -o src/types.ts",
+    "clean": "rm -rf dist node_modules"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^6.7.0",
+    "typescript": "^5.2.0"
+  }
+}

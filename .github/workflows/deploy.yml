@@ -1,0 +1,41 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Build and push API Docker image
+      run: |
+        cd apps/api
+        docker build -t real-estate-api:${{ github.sha }} .
+        docker tag real-estate-api:${{ github.sha }} real-estate-api:latest
+        docker push ${{ secrets.AWS_REGISTRY_URL }}/real-estate-api:${{ github.sha }}
+        docker push ${{ secrets.AWS_REGISTRY_URL }}/real-estate-api:latest
+
+    - name: Build and push Web Docker image
+      run: |
+        cd apps/web
+        docker build -t real-estate-web:${{ github.sha }} .
+        docker tag real-estate-web:${{ github.sha }} real-estate-web:latest
+        docker push ${{ secrets.AWS_REGISTRY_URL }}/real-estate-web:${{ github.sha }}
+        docker push ${{ secrets.AWS_REGISTRY_URL }}/real-estate-web:latest
+
+    - name: Deploy to production
+      run: |
+        # Add deployment commands here
+        echo "Deploying to production environment"

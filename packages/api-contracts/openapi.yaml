@@ -1,0 +1,1138 @@
+openapi: 3.0.0
+info:
+  title: Real Estate Platform API
+  description: API for Real Estate Intelligence and Investor Marketplace Platform
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@realestateplatform.com
+
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Development server
+  - url: https://api.realestateplatform.com/api/v1
+    description: Production server
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: properties
+    description: Property search and management
+  - name: investors
+    description: Investor profiles and matching
+  - name: analyses
+    description: Property analysis and valuation
+  - name: offers
+    description: Offer management
+  - name: deals
+    description: Deal workflow and management
+  - name: documents
+    description: Document management
+  - name: jobs
+    description: Background job management
+  - name: auth
+    description: Authentication and authorization
+
+paths:
+  /properties:
+    get:
+      tags:
+        - properties
+      summary: Search properties
+      description: Search for properties based on various filters
+      operationId: searchProperties
+      parameters:
+        - name: address
+          in: query
+          description: Search by address
+          schema:
+            type: string
+        - name: city
+          in: query
+          description: Filter by city
+          schema:
+            type: string
+        - name: stateCode
+          in: query
+          description: Filter by state code
+          schema:
+            type: string
+            pattern: '^[A-Z]{2}$'
+        - name: postalCode
+          in: query
+          description: Filter by postal code
+          schema:
+            type: string
+        - name: propertyType
+          in: query
+          description: Filter by property type
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [single_family, multi_family, condo, townhouse, land, commercial]
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+      responses:
+        '200':
+          description: Properties found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertySearchResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /properties/{id}:
+    get:
+      tags:
+        - properties
+      summary: Get property by ID
+      description: Retrieve detailed information about a specific property
+      operationId: getProperty
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Property ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Property found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyResponse'
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /properties/{id}/analyses:
+    post:
+      tags:
+        - analyses
+      summary: Create property analysis
+      description: Start a new property analysis job
+      operationId: createPropertyAnalysis
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Property ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAnalysisRequest'
+      responses:
+        '202':
+          description: Analysis job created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /analyses/{id}:
+    get:
+      tags:
+        - analyses
+      summary: Get analysis by ID
+      description: Retrieve the status and results of a property analysis
+      operationId: getAnalysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Analysis ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Analysis found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalysisResponse'
+        '404':
+          description: Analysis not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /investor-profiles:
+    get:
+      tags:
+        - investors
+      summary: Get investor profiles
+      description: Retrieve investor profiles (filtered by user's organization)
+      operationId: getInvestorProfiles
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Investor profiles retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestorProfilesResponse'
+    post:
+      tags:
+        - investors
+      summary: Create investor profile
+      description: Create a new investor profile
+      operationId: createInvestorProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInvestorProfileRequest'
+      responses:
+        '201':
+          description: Investor profile created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestorProfileResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /investor-profiles/{id}:
+    get:
+      tags:
+        - investors
+      summary: Get investor profile by ID
+      description: Retrieve a specific investor profile
+      operationId: getInvestorProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Investor profile ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Investor profile found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestorProfileResponse'
+        '404':
+          description: Investor profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - investors
+      summary: Update investor profile
+      description: Update an existing investor profile
+      operationId: updateInvestorProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Investor profile ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInvestorProfileRequest'
+      responses:
+        '200':
+          description: Investor profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestorProfileResponse'
+        '404':
+          description: Investor profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /investor-profiles/{id}/matches:
+    get:
+      tags:
+        - investors
+      summary: Get property matches for investor
+      description: Retrieve properties that match the investor's criteria
+      operationId: getInvestorMatches
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Investor profile ID
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Property matches retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PropertyMatchesResponse'
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Get offers
+      description: Retrieve offers with optional filters
+      operationId: getOffers
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: propertyId
+          in: query
+          description: Filter by property ID
+          schema:
+            type: string
+            format: uuid
+        - name: investorId
+          in: query
+          description: Filter by investor ID
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [draft, submitted, under_review, accepted, rejected, countered, expired]
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Offers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OffersResponse'
+    post:
+      tags:
+        - offers
+      summary: Create offer
+      description: Create a new offer for a property
+      operationId: createOffer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOfferRequest'
+      responses:
+        '201':
+          description: Offer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferResponse'
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /offers/{id}:
+    get:
+      tags:
+        - offers
+      summary: Get offer by ID
+      description: Retrieve a specific offer
+      operationId: getOffer
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Offer ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Offer found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OfferResponse'
+        '404':
+          description: Offer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /deals:
+    get:
+      tags:
+        - deals
+      summary: Get deals
+      description: Retrieve deals with optional filters
+      operationId: getDeals
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: propertyId
+          in: query
+          description: Filter by property ID
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [initiated, due_diligence, contracted, financing, closing, closed, cancelled]
+        - name: page
+          in: query
+          description: Page number
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Deals retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealsResponse'
+
+  /deals/{id}:
+    get:
+      tags:
+        - deals
+      summary: Get deal by ID
+      description: Retrieve a specific deal with all details
+      operationId: getDeal
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Deal ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Deal found successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealResponse'
+        '404':
+          description: Deal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /documents/upload-url:
+    post:
+      tags:
+        - documents
+      summary: Get document upload URL
+      description: Generate a pre-signed S3 URL for document upload
+      operationId: getUploadUrl
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadUrlRequest'
+      responses:
+        '200':
+          description: Upload URL generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadUrlResponse'
+
+  /jobs/{id}:
+    get:
+      tags:
+        - jobs
+      summary: Get job status
+      description: Check the status of a background job
+      operationId: getJobStatus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Job ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobResponse'
+        '404':
+          description: Job not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        canonicalAddress:
+          type: string
+        city:
+          type: string
+        stateCode:
+          type: string
+          pattern: '^[A-Z]{2}$'
+        postalCode:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        propertyType:
+          type: string
+          enum: [single_family, multi_family, condo, townhouse, land, commercial]
+        bedrooms:
+          type: number
+        bathrooms:
+          type: number
+        buildingSqft:
+          type: integer
+        lotSqft:
+          type: integer
+        yearBuilt:
+          type: integer
+        estimatedValue:
+          type: number
+          format: double
+        investmentScore:
+          type: number
+          format: double
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PropertyResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Property'
+        requestId:
+          type: string
+
+    PropertySearchResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Property'
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            total:
+              type: integer
+            hasMore:
+              type: boolean
+        requestId:
+          type: string
+
+    CreateAnalysisRequest:
+      type: object
+      properties:
+        assumptions:
+          type: object
+          description: Custom assumptions for the analysis
+
+    AnalysisResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            propertyId:
+              type: string
+              format: uuid
+            status:
+              type: string
+              enum: [pending, processing, completed, failed]
+            estimatedValue:
+              type: number
+              format: double
+            confidence:
+              type: number
+              format: double
+            modelName:
+              type: string
+            modelVersion:
+              type: string
+            comparableCount:
+              type: integer
+            jobId:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+        requestId:
+          type: string
+
+    InvestorProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        displayName:
+          type: string
+        capitalMin:
+          type: number
+          format: double
+        capitalMax:
+          type: number
+          format: double
+        strategy:
+          type: string
+          enum: [fix_and_flip, buy_and_hold, rental, wholesale, development]
+        targetReturn:
+          type: number
+          format: double
+        riskTolerance:
+          type: string
+          enum: [low, medium, high]
+        renovationAppetite:
+          type: string
+          enum: [none, light, moderate, heavy]
+        propertyTypes:
+          type: array
+          items:
+            type: string
+        preferredStates:
+          type: array
+          items:
+            type: string
+        preferredCities:
+          type: array
+          items:
+            type: string
+        notificationEmail:
+          type: boolean
+        notificationSms:
+          type: boolean
+        notificationPush:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateInvestorProfileRequest:
+      type: object
+      required:
+        - displayName
+        - strategy
+      properties:
+        displayName:
+          type: string
+        capitalMin:
+          type: number
+          format: double
+        capitalMax:
+          type: number
+          format: double
+        strategy:
+          type: string
+          enum: [fix_and_flip, buy_and_hold, rental, wholesale, development]
+        targetReturn:
+          type: number
+          format: double
+        riskTolerance:
+          type: string
+          enum: [low, medium, high]
+        renovationAppetite:
+          type: string
+          enum: [none, light, moderate, heavy]
+        propertyTypes:
+          type: array
+          items:
+            type: string
+        preferredStates:
+          type: array
+          items:
+            type: string
+        preferredCities:
+          type: array
+          items:
+            type: string
+
+    UpdateInvestorProfileRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+        capitalMin:
+          type: number
+          format: double
+        capitalMax:
+          type: number
+          format: double
+        strategy:
+          type: string
+          enum: [fix_and_flip, buy_and_hold, rental, wholesale, development]
+        targetReturn:
+          type: number
+          format: double
+        riskTolerance:
+          type: string
+          enum: [low, medium, high]
+        renovationAppetite:
+          type: string
+          enum: [none, light, moderate, heavy]
+        propertyTypes:
+          type: array
+          items:
+            type: string
+        preferredStates:
+          type: array
+          items:
+            type: string
+        preferredCities:
+          type: array
+          items:
+            type: string
+
+    InvestorProfileResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/InvestorProfile'
+        requestId:
+          type: string
+
+    InvestorProfilesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvestorProfile'
+        requestId:
+          type: string
+
+    PropertyMatch:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        investorId:
+          type: string
+          format: uuid
+        propertyId:
+          type: string
+          format: uuid
+        score:
+          type: number
+          format: double
+        reasons:
+          type: array
+          items:
+            type: string
+        isViewed:
+          type: boolean
+        isSaved:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+
+    PropertyMatchesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PropertyMatch'
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            total:
+              type: integer
+            hasMore:
+              type: boolean
+        requestId:
+          type: string
+
+    Offer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        propertyId:
+          type: string
+          format: uuid
+        investorId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [draft, submitted, under_review, accepted, rejected, countered, expired]
+        offeredPrice:
+          type: number
+          format: double
+        terms:
+          type: object
+        expiresAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateOfferRequest:
+      type: object
+      required:
+        - propertyId
+        - offeredPrice
+      properties:
+        propertyId:
+          type: string
+          format: uuid
+        offeredPrice:
+          type: number
+          format: double
+        terms:
+          type: object
+        expiresAt:
+          type: string
+          format: date-time
+
+    OfferResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Offer'
+        requestId:
+          type: string
+
+    OffersResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Offer'
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            total:
+              type: integer
+            hasMore:
+              type: boolean
+        requestId:
+          type: string
+
+    Deal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        propertyId:
+          type: string
+          format: uuid
+        offerId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [initiated, due_diligence, contracted, financing, closing, closed, cancelled]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        milestones:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              status:
+                type: string
+                enum: [pending, in_progress, completed, blocked]
+              dueDate:
+                type: string
+                format: date-time
+              completedAt:
+                type: string
+                format: date-time
+        participants:
+          type: array
+          items:
+            type: object
+            properties:
+              userId:
+                type: string
+                format: uuid
+              role:
+                type: string
+                enum: [buyer, seller, agent, coordinator, lender, attorney]
+
+    DealResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Deal'
+        requestId:
+          type: string
+
+    DealsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+            pageSize:
+              type: integer
+            total:
+              type: integer
+            hasMore:
+              type: boolean
+        requestId:
+          type: string
+
+    UploadUrlRequest:
+      type: object
+      required:
+        - documentType
+        - fileName
+        - contentType
+      properties:
+        documentType:
+          type: string
+        propertyId:
+          type: string
+          format: uuid
+        dealId:
+          type: string
+          format: uuid
+        fileName:
+          type: string
+        contentType:
+          type: string
+        fileSize:
+          type: integer
+
+    UploadUrlResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            uploadUrl:
+              type: string
+            s3Key:
+              type: string
+            expiresAt:
+              type: string
+              format: date-time
+        requestId:
+          type: string
+
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+        jobType:
+          type: string
+        status:
+          type: string
+          enum: [pending, processing, completed, failed]
+        progress:
+          type: integer
+          minimum: 0
+          maximum: 100
+        errorMessage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+
+    JobResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Job'
+        requestId:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+            details:
+              type: object
+        requestId:
+          type: string

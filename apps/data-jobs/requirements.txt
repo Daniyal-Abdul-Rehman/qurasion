@@ -1,0 +1,39 @@
+# Core dependencies for data ingestion pipeline
+requests>=2.31.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Caching (optional)
+redis>=4.5.0
+
+# Geographic data processing (for Phase 4)
+geopandas>=0.13.0
+shapely>=2.0.0
+
+# PostGIS support (for Phase 4)
+geoalchemy2>=0.14.0
+
+# Configuration management
+python-dotenv>=1.0.0
+pyyaml>=6.0
+
+# Logging and monitoring
+python-json-logger>=2.0.0
+
+# Testing dependencies
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.11.0
+
+# Development dependencies
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
+
+# Additional utilities
+python-dateutil>=2.8.0
+tenacity>=8.2.0
