@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, Check, Eye, EyeOff, Landmark, LineChart, Search, ShieldCheck, Users } from 'lucide-react';
 import { useState } from 'react';
 import Scene3D from '../3d/Scene3D';
+import { FormField } from '../molecules';
 
 export type AccountRole = 'investor' | 'acquisitions' | 'analyst' | 'data-operations' | 'administrator';
 
@@ -139,10 +140,10 @@ export function AccountCreationPage({ role }: { role: AccountRole }) {
             ) : (
               <form onSubmit={(event) => { event.preventDefault(); setSubmitted(true); }} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="sm:col-span-2"><span className="mb-2 block text-sm text-[#66706A]">Full name</span><input value={formData.name} onChange={(event) => updateField('name', event.target.value)} className="input w-full" placeholder="Your full name" required /></label>
-                  <label className="sm:col-span-2"><span className="mb-2 block text-sm text-[#66706A]">Work email</span><input type="email" value={formData.email} onChange={(event) => updateField('email', event.target.value)} className="input w-full" placeholder="you@company.com" required /></label>
-                  {config.fields.map((field) => <label key={field.name}><span className="mb-2 block text-sm text-[#66706A]">{field.label}</span><input type={field.type ?? 'text'} value={formData[field.name] ?? ''} onChange={(event) => updateField(field.name, event.target.value)} className="input w-full" placeholder={field.placeholder} required /></label>)}
-                  <label className="sm:col-span-2"><span className="mb-2 block text-sm text-[#66706A]">Password</span><div className="relative"><input type={showPassword ? 'text' : 'password'} value={formData.password} onChange={(event) => updateField('password', event.target.value)} className="input w-full pr-12" placeholder="At least 8 characters" minLength={8} required /><button type="button" aria-label={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword((current) => !current)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#66706A] hover:text-[#172019]">{showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button></div></label>
+                  <FormField className="sm:col-span-2" label="Full name" value={formData.name} onChange={(event) => updateField('name', event.target.value)} placeholder="Your full name" required />
+                  <FormField className="sm:col-span-2" label="Work email" type="email" value={formData.email} onChange={(event) => updateField('email', event.target.value)} placeholder="you@company.com" required />
+                  {config.fields.map((field) => <FormField key={field.name} label={field.label} type={field.type ?? 'text'} value={formData[field.name] ?? ''} onChange={(event) => updateField(field.name, event.target.value)} placeholder={field.placeholder} required />)}
+                  <FormField className="sm:col-span-2" label="Password"><div className="relative"><input type={showPassword ? 'text' : 'password'} value={formData.password} onChange={(event) => updateField('password', event.target.value)} className="input w-full pr-12" placeholder="At least 8 characters" minLength={8} required /><button type="button" aria-label={showPassword ? 'Hide password' : 'Show password'} onClick={() => setShowPassword((current) => !current)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#66706A] hover:text-[#172019]">{showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}</button></div></FormField>
                 </div>
                 <button type="submit" className="btn-primary flex w-full items-center justify-center gap-2">Create {config.label.toLowerCase()} account <ArrowRight className="h-4 w-4" /></button>
                 <p className="text-center text-xs leading-5 text-[#66706A]">By creating an account, you agree to Qurasion&apos;s <Link href="/terms" className="text-[#173D2B] hover:underline">Terms</Link> and <Link href="/privacy" className="text-[#173D2B] hover:underline">Privacy Policy</Link>.</p>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import BrandLink from '../molecules/BrandLink';
 
 interface NavItem {
   label: string;
@@ -66,12 +67,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-[#173D2B] rounded-lg flex items-center justify-center">
-              <span className="text-[#FFFFFF] font-bold text-lg">Q</span>
-            </div>
-            <span className="text-[#172019] font-display font-semibold text-xl">Qurasion</span>
-          </Link>
+          <BrandLink />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

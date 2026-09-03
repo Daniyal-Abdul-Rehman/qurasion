@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import BrandLink from '../molecules/BrandLink';
 
 const footerLinks = {
   platform: [
@@ -38,12 +39,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           {/* Logo and description */}
           <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-[#173D2B] rounded-lg flex items-center justify-center">
-                <span className="text-[#FFFFFF] font-bold text-lg">Q</span>
-              </div>
-              <span className="text-[#172019] font-display font-semibold text-xl">Qurasion</span>
-            </Link>
+            <div className="mb-4"><BrandLink /></div>
             <p className="text-[#66706A] text-sm">
               Real estate intelligence built for the modern investor.
             </p>
