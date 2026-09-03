@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Scene3D from '../3d/Scene3D';
 import { FormField } from '../molecules';
 
-export type AccountRole = 'investor' | 'acquisitions' | 'analyst' | 'data-operations' | 'administrator';
+export type AccountRole = 'investor' | 'seller' | 'acquisitions' | 'analyst' | 'data-operations' | 'administrator';
 
 type RoleConfig = {
   label: string;
@@ -31,6 +31,19 @@ const roleConfigs: Record<AccountRole, RoleConfig> = {
       { label: 'Investment company', name: 'company', placeholder: 'Company or fund name' },
       { label: 'Primary strategy', name: 'strategy', placeholder: 'e.g. Buy and hold' },
       { label: 'Target market', name: 'market', placeholder: 'City, state, or region' },
+    ],
+  },
+  seller: {
+    label: 'Seller / property owner',
+    eyebrow: 'Seller workspace',
+    title: 'Move your property from listing to close.',
+    description: 'Create a seller workspace to manage property information, listing performance, investor interest, offers, and transactions.',
+    detail: 'Property intelligence, qualified investor demand, and offer workflows in one place.',
+    icon: Landmark,
+    fields: [
+      { label: 'Property or company name', name: 'company', placeholder: 'Owner or company name' },
+      { label: 'Seller type', name: 'sellerType', placeholder: 'e.g. Property owner' },
+      { label: 'Primary market', name: 'market', placeholder: 'City, state, or region' },
     ],
   },
   acquisitions: {

@@ -1,0 +1,13 @@
+import Link from 'next/link';
+import { ArrowLeft, Check, CircleDollarSign } from 'lucide-react';
+import { StatusBadge } from '../../../../components/atoms';
+import SellerPageShell from '../../../../components/organisms/SellerPageShell';
+
+export default function SellerOfferDetailPage() {
+  return <SellerPageShell eyebrow="Offer detail" title="Offer #12345" description="123 Main Street · Investor #A103" action={<div className="flex gap-2"><button type="button" className="btn-secondary px-4 py-2.5 text-sm">Reject</button><Link href="/seller/offers/12345/counter" className="btn-primary flex items-center gap-2 px-4 py-2.5 text-sm">Counter offer</Link></div>}>
+    <Link href="/seller/offers" className="mb-5 inline-flex items-center gap-2 text-sm font-semibold text-[#173D2B]"><ArrowLeft size={15} /> Back to offers</Link>
+    <div className="grid gap-5 xl:grid-cols-[1fr_330px]"><section className="rounded-lg border border-[#DDE2DD] bg-white p-5 sm:p-7"><div className="flex justify-between"><div><p className="text-sm text-[#66706A]">Current status</p><h2 className="mt-1 font-display text-3xl">Countered</h2></div><StatusBadge tone="warning">Action required</StatusBadge></div><div className="mt-7 grid gap-4 sm:grid-cols-3"><Metric label="Offer price" value="$315,000" /><Metric label="Earnest money" value="$10,000" /><Metric label="Closing" value="Oct 10" /></div><h2 className="mt-9 font-display text-2xl">Offer timeline</h2><div className="mt-5 space-y-5">{[['Investor submitted offer', 'Sep 03', true], ['Seller reviewed terms', 'Sep 04', true], ['Waiting for your response', 'Now', false]].map(([event, date, complete]) => <div key={event as string} className="flex gap-3"><span className={`flex h-6 w-6 items-center justify-center rounded-full ${complete ? 'bg-[#E8F5D3] text-[#31551C]' : 'bg-[#173D2B] text-white'}`}>{complete && <Check size={13} />}</span><div><p className="text-sm font-semibold">{event as string}</p><p className="text-xs text-[#66706A]">{date as string}</p></div></div>)}</div></section><aside className="rounded-lg bg-[#173D2B] p-5 text-white"><CircleDollarSign className="text-[#B7D83D]" size={19} /><h2 className="mt-5 font-display text-2xl">Investor context</h2><p className="mt-2 text-sm text-white/65">Verified investor · Fix & Flip · $200K–$500K capital range</p><Link href="/seller/messages" className="mt-6 block text-sm font-semibold text-[#B7D83D]">Request information →</Link></aside></div>
+  </SellerPageShell>;
+}
+
+function Metric({ label, value }: { label: string; value: string }) { return <div className="rounded-md bg-[#F7F8F6] p-4"><p className="text-xs text-[#66706A]">{label}</p><p className="mt-2 font-display text-2xl">{value}</p></div>; }
