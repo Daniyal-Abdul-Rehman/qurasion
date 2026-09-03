@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   description: "Turn fragmented property data into actionable investment intelligence — from discovery and valuation to underwriting, investor matching and deal execution.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
