@@ -163,7 +163,7 @@ export default function Property3D({ animated = true, highlight = false, scale =
         <primitive 
           key={index} 
           object={layer} 
-          ref={(el: THREE.Object3D | null) => { if (el) layersRef.current[index] = el; }}
+          ref={(el: any) => { if (el) layersRef.current[index] = el; }}
         />
       ))}
     </group>
