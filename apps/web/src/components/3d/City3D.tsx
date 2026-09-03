@@ -6,9 +6,10 @@ import * as THREE from 'three';
 
 interface City3DProps {
   animated?: boolean;
+  dataStreams?: boolean;
 }
 
-export default function City3D({ animated = true }: City3DProps) {
+export default function City3D({ animated = true, dataStreams = true }: City3DProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -34,7 +35,7 @@ export default function City3D({ animated = true }: City3DProps) {
       })}
 
       {/* Data particles */}
-      {Array.from({ length: 20 }).map((_, i) => (
+      {dataStreams && Array.from({ length: 20 }).map((_, i) => (
         <mesh key={`particle-${i}`} position={[
           (Math.random() - 0.5) * 10,
           Math.random() * 5 + 2,
