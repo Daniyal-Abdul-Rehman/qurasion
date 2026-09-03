@@ -27,8 +27,8 @@ export default function DealsPage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* 3D Background */}
-        <div className="absolute inset-0 -z-10 opacity-30">
-          <Scene3D>
+        <div className="absolute inset-0 z-0 opacity-[0.42]">
+          <Scene3D variant="timeline">
             <DealTimeline3D animated={true} currentStage={currentStage} stages={stages} />
           </Scene3D>
         </div>

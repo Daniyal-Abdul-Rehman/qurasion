@@ -18,9 +18,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
+    <div className="relative min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
+      <div className="pointer-events-none absolute inset-0 -z-0 opacity-[0.42]">
+        <Scene3D variant="network">{null}</Scene3D>
+      </div>
       {/* Minimal Header */}
-      <header className="py-6 px-6">
+      <header className="relative z-10 py-6 px-6">
         <div className="max-w-7xl mx-auto">
           <Link href="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-[#173D2B] rounded-lg flex items-center justify-center">
@@ -32,7 +35,7 @@ export default function LoginPage() {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 flex items-center justify-center px-6 py-12">
+      <main className="relative z-10 flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

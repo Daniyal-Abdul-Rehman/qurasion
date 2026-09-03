@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Scene3D from '../../components/3d/Scene3D';
 
 const accountTypes = [
   { role: 'investor', title: 'Investor', description: 'Discover opportunities and build a focused portfolio.' },
@@ -10,8 +11,9 @@ const accountTypes = [
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
-      <header className="px-6 py-6">
+    <div className="relative min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
+      <div className="pointer-events-none absolute inset-0 -z-0 opacity-[0.42]"><Scene3D variant="property">{null}</Scene3D></div>
+      <header className="relative z-10 px-6 py-6">
         <div className="mx-auto max-w-7xl">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#173D2B]"><span className="text-lg font-bold text-white">Q</span></div>
@@ -20,7 +22,7 @@ export default function SignupPage() {
         </div>
       </header>
 
-      <main className="flex-1 px-6 py-12 lg:py-20">
+      <main className="relative z-10 flex-1 px-6 py-12 lg:py-20">
         <div className="mx-auto max-w-4xl">
           <div className="mx-auto max-w-2xl text-center">
             <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#66706A]">Create your workspace</p>

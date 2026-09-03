@@ -66,8 +66,8 @@ export default function GuidesPage() {
 
       {/* Hero Section */}
       <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 -z-10 opacity-30">
-          <Scene3D>
+        <div className="absolute inset-0 z-0 opacity-[0.42]">
+          <Scene3D variant="property">
             <DataNetwork3D animated={true} stage="enrich" />
           </Scene3D>
         </div>

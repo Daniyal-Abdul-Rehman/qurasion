@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowRight, Check, Eye, EyeOff, Landmark, LineChart, Search, ShieldCheck, Users } from 'lucide-react';
 import { useState } from 'react';
+import Scene3D from '../3d/Scene3D';
 
 export type AccountRole = 'investor' | 'acquisitions' | 'analyst' | 'data-operations' | 'administrator';
 
@@ -99,8 +100,9 @@ export function AccountCreationPage({ role }: { role: AccountRole }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
-      <header className="px-6 py-6">
+    <div className="relative min-h-screen bg-[#F7F8F6] blueprint-overlay flex flex-col">
+      <div className="pointer-events-none absolute inset-0 -z-0 opacity-[0.42]"><Scene3D variant="graph">{null}</Scene3D></div>
+      <header className="relative z-10 px-6 py-6">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#173D2B]">
@@ -112,7 +114,7 @@ export function AccountCreationPage({ role }: { role: AccountRole }) {
         </div>
       </header>
 
-      <main className="flex-1 px-6 py-10 lg:py-16">
+      <main className="relative z-10 flex-1 px-6 py-10 lg:py-16">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="pt-3">
             <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#173D2B] text-[#B7D83D]"><Icon className="h-6 w-6" /></div>

@@ -14,8 +14,8 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         {/* 3D Scene - Fixed dimensions that worked */}
-        <div className="absolute inset-0 -z-10 w-full h-full">
-          <Scene3D>
+        <div className="absolute inset-0 z-0 w-full h-full opacity-[0.42]">
+          <Scene3D variant="city">
             <City3D animated={true} />
           </Scene3D>
         </div>
