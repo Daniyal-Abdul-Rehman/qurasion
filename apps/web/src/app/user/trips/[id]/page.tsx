@@ -8,8 +8,8 @@ import {
   Phone, FileText, Download, Share2, ExternalLink, XCircle,
   CheckCircle2, Clock, AlertTriangle
 } from 'lucide-react';
-import BuyerPageShell from '../../../../../components/organisms/BuyerPageShell';
-import { buyerBookings, buyerProperties } from '../../../../../lib/buyer-data';
+import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
+import { buyerBookings, buyerProperties } from '../../../../lib/buyer-data';
 
 export default function TripDetailPage() {
   const params = useParams();

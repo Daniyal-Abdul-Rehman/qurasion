@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from 'next/link';
+import Link from 'next/link';
 import { FileText, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
 import BuyerPageShell from '../../../components/organisms/BuyerPageShell';
 import { buyerTransactions, buyerProperties } from '../../../lib/buyer-data';

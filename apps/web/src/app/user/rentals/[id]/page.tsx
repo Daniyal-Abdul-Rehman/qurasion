@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, FileText, CheckCircle2, Clock, AlertTriangle, Home, User, MessageSquare } from 'lucide-react';
-import BuyerPageShell from '../../../../../components/organisms/BuyerPageShell';
-import { buyerProperties } from '../../../../../lib/buyer-data';
+import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
+import { buyerProperties } from '../../../../lib/buyer-data';
 
 export default function RentalDetailPage() {
   const params = useParams();

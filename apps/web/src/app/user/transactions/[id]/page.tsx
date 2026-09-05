@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle2, Clock, FileText, Home, User, MessageSquare, AlertTriangle } from 'lucide-react';
-import BuyerPageShell from '../../../../../components/organisms/BuyerPageShell';
-import { buyerTransactions, buyerProperties } from '../../../../../lib/buyer-data';
+import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
+import { buyerTransactions, buyerProperties } from '../../../../lib/buyer-data';
 
 export default function TransactionDetailPage() {
   const params = useParams();

@@ -7,8 +7,8 @@ import {
   ArrowLeft, Send, MoreVertical, Phone, FileText, 
   Calendar, Home, User, Clock, Paperclip
 } from 'lucide-react';
-import BuyerPageShell from '../../../../../components/organisms/BuyerPageShell';
-import { buyerMessages, buyerProperties } from '../../../../../lib/buyer-data';
+import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
+import { buyerMessages, buyerProperties } from '../../../../lib/buyer-data';
 
 export default function MessageConversationPage() {
   const params = useParams();

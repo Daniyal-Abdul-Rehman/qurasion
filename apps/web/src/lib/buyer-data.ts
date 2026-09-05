@@ -82,14 +82,7 @@ export const buyerProperties = [
     nightlyRate: 185,
     rating: 4.8,
     reviews: 127,
-    availability: {
-      '2026-09-20': true,
-      '2026-09-21': true,
-      '2026-09-22': true,
-      '2026-09-23': true,
-      '2026-09-24': true,
-      '2026-09-25': true,
-    },
+    availability: 'Sep 20-25, 2026',
   },
   {
     id: 'prop-4',

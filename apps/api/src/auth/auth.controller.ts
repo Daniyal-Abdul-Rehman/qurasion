@@ -43,7 +43,7 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getCurrentUser(
     @RequestId() requestId: string,
-    @Request() req,
+    @Request() req: any,
   ): Promise<ApiResponseDto<any>> {
     return ApiResponseDto.success(requestId, req.user);
   }

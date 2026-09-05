@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, DollarSign, Percent, Calendar, FileText, Send } from 'lucide-react';
 import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
 import { buyerProperties } from '../../../../lib/buyer-data';
 
-export default function NewOfferPage() {
+function NewOfferContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const propertyId = searchParams.get('property');
@@ -246,5 +246,13 @@ export default function NewOfferPage() {
         </div>
       </div>
     </BuyerPageShell>
+  );
+}
+
+export default function NewOfferPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewOfferContent />
+    </Suspense>
   );
 }

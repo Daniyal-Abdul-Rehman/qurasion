@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft, Calendar, Clock, MapPin, User, Phone, MessageSquare, XCircle, AlertTriangle } from 'lucide-react';
-import BuyerPageShell from '../../../../../components/organisms/BuyerPageShell';
-import { buyerViewings, buyerProperties } from '../../../../../lib/buyer-data';
+import BuyerPageShell from '../../../../components/organisms/BuyerPageShell';
+import { buyerViewings, buyerProperties } from '../../../../lib/buyer-data';
 
 export default function ViewingDetailPage() {
   const params = useParams();
