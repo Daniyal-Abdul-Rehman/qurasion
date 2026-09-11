@@ -60,6 +60,39 @@
   --transition-slow: 350ms ease;
 }
 
+[data-theme="dark"] {
+  /* Design System Colors - Dark Premium Architectural Theme */
+  --canvas: #0A0C0B;
+  --surface: #141615;
+  --surface-2: #1A1C1B;
+  --surface-3: #202220;
+  
+  --text-primary: #E8EAE8;
+  --text-secondary: #9AA8A0;
+  --text-muted: #66706A;
+  
+  --accent: #B7D83D;
+  --accent-hover: #A5C635;
+  
+  --lime: #B7D83D;
+  --lime-hover: #A5C635;
+  
+  --sand: #2A2C2B;
+  --soft-blue: #1E2A30;
+  
+  --border: #2A2C2B;
+  --border-light: #202220;
+  
+  --glass-bg: rgba(20, 22, 21, 0.8);
+  --glass-border: rgba(42, 44, 43, 0.5);
+  
+  /* Status Colors */
+  --success: #4ADE80;
+  --warning: #FBBF24;
+  --error: #F87171;
+  --info: #60A5FA;
+}
+
 /* Navigation link styling */
 .nav-link {
   transition: color var(--transition-fast);

@@ -29,12 +29,12 @@ const navigation = [
 export default function BrokerSidebar() {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <aside className={`${collapsed ? 'w-[76px]' : 'w-[248px]'} hidden shrink-0 border-r border-[#DDE2DD] bg-[#FBFCFA] px-3 py-5 transition-[width] duration-300 lg:flex lg:flex-col`}>
+    <aside className={`${collapsed ? 'w-[76px]' : 'w-[248px]'} hidden shrink-0 border-r border-[var(--border)] bg-[var(--surface-2)] px-3 py-5 transition-[width] duration-300 lg:flex lg:flex-col`}>
       <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} px-3`}>
         {collapsed ? <BrandMark /> : <Link href="/" className="flex items-center gap-2"><BrandMark /><span className="font-display text-xl">qurasion</span></Link>}
         {!collapsed && <IconButton label="Collapse navigation" onClick={() => setCollapsed(true)} className="h-8 w-8"><ChevronLeft size={15} /></IconButton>}
       </div>
-      <p className={`mb-3 mt-10 px-3 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9AA8A0] ${collapsed ? 'text-center' : ''}`}>{collapsed ? '·' : 'Broker workspace'}</p>
+      <p className={`mb-3 mt-10 px-3 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--text-muted)] ${collapsed ? 'text-center' : ''}`}>{collapsed ? '·' : 'Broker workspace'}</p>
       <nav className="space-y-1">
         {navigation.map(([label, href, Icon]) => (
           <Link key={label} href={href} className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm ${label === 'Dashboard' ? 'bg-[#E8F5D3] font-semibold text-[#173D2B]' : 'text-[#66706A] hover:bg-[#F0F2F0] hover:text-[#172019]'} ${collapsed ? 'justify-center' : ''}`}>

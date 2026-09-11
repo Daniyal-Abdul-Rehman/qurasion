@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { Bell, Menu } from 'lucide-react';
-import BrokerSidebar from './BrokerSidebar';
+import DataOperatorSidebar from './DataOperatorSidebar';
 import { IconButton, ThemeToggle } from '../atoms';
 
-export default function BrokerPageShell({ eyebrow, title, description, action, children }: { eyebrow: string; title: string; description?: string; action?: ReactNode; children: ReactNode }) {
+export default function DataOperatorPageShell({ eyebrow, title, description, action, children }: { eyebrow: string; title: string; description?: string; action?: ReactNode; children: ReactNode }) {
   return (
     <div className="flex min-h-screen bg-[var(--canvas)] text-[var(--text-primary)]">
-      <BrokerSidebar />
+      <DataOperatorSidebar />
       <main className="min-w-0 flex-1">
         <header className="flex h-[76px] items-center justify-between border-b border-[var(--border)] bg-[var(--surface)] px-5 sm:px-8 lg:px-10">
           <div className="flex items-center gap-3">
@@ -15,7 +15,7 @@ export default function BrokerPageShell({ eyebrow, title, description, action, c
               <Menu size={20} />
             </button>
             <div className="hidden items-center gap-2 text-xs text-[var(--text-muted)] sm:flex">
-              <Link href="/broker/dashboard" className="hover:text-[var(--text-primary)]">Workspace</Link>
+              <Link href="/data-operator/dashboard" className="hover:text-[var(--text-primary)]">Workspace</Link>
               <span>/</span>
               <span className="text-[var(--text-primary)]">{title}</span>
             </div>
@@ -26,7 +26,7 @@ export default function BrokerPageShell({ eyebrow, title, description, action, c
               <Bell size={17} />
               <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-[var(--lime)]" />
             </IconButton>
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-white">DR</div>
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-semibold text-white">DO</div>
           </div>
         </header>
         <div className="mx-auto max-w-[1440px] px-5 py-8 sm:px-8 lg:px-10">

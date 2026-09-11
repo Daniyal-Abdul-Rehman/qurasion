@@ -5,13 +5,14 @@ interface MetricCardProps {
   value: string;
   detail: string;
   icon: LucideIcon;
-  accent?: 'lime' | 'blue' | 'sand';
+  accent?: 'lime' | 'blue' | 'sand' | 'warning';
 }
 
 const accents = {
   lime: 'bg-[#E8F5D3] text-[#31551C]',
   blue: 'bg-[#E7F0F4] text-[#315A6B]',
   sand: 'bg-[#F3EBDD] text-[#745F35]',
+  warning: 'bg-[#FFF8E6] text-[#B8860B]',
 };
 
 export default function MetricCard({ label, value, detail, icon: Icon, accent = 'lime' }: MetricCardProps) {
